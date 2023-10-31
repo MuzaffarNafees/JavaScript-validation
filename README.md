@@ -14,4 +14,4 @@ This is a  JavaScript form validation project. It ensures that user inputs in a 
 1. **Clone the repository**
 
    ```sh
-   git clone https://github.com/muzaffarnafees/JavaScript-validation.git
+   git clone https://github.com/MuzaffarNafees/JavaScript-validation.git
