@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Muzaffar Nafees Form</title>
+
+    <style>
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        * {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            font-family: Arial;
+            background-color: #cce8d1;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            width: 300px;
+            margin-left: 640px;
+            text-align: center;
+            color: #0b0000;
+        }
+
+        h1 span {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            color: #0c819b;
+        }
+
+        form {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 10px;
+            border: 2px solid;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px -10px;
+            border: 1px solid #898282;
+            border-radius: 3px;
+        }
+
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        label.gender-label {
+            display: flex;
+            font-weight: normal;
+        }
+
+        input[type="file"] {
+            margin-top: 5px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #117108;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #115f8d;
+        }
+
+        .password {
+            display: flex;
+            gap: 100px;
+        }
+
+        .male,
+        .female {
+            margin-top: -15px;
+            margin-left: 80px;
+            display: inline-block;
+        }
+
+        .female {
+            margin-left: 20px;
+        }
+
+        .fn_error,
+        .ln_error,
+        .error_fullname,
+        .email,
+        .pass_check,
+        .mob_error,
+        .add_error,
+        .pin_error,
+        .img_error,
+        .pdf_error {
+            font-size: 12px;
+        }
+
+        .register {
+            margin-top: 20px;
+            margin-bottom: 30px;
+            margin-left: 200px;
+            width: 160px;
+            height: 45px;
+        }
+
+        .password input {
+            height: 22px;
+        }
+
+        .password img {
+            width: 23px;
+            margin-bottom: -7px;
+            margin-left: -30px;
+        }
+
+        .image {
+            margin-top: 15px;
+        }
+
+        .file {
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+
+        .dob {
+            margin-left: 275px;
+            margin-top: -50px;
+        }
+
+        .dob input {
+            width: 110px;
+            height: 22px;
+        }
+
+        ::placeholder {
+            font-size: 12px;
+            color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        #password-strength-meter {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 32px -43px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Validation Form</h1>
+    <form id="registrationForm" name="registrationForm" enctype="multipart/form-data" action="process_registration.php"
+        method="post" onsubmit="return formSubmit()">
+
+        <!-- First Name -->
+        <label for="first_name">First Name:</label>
+        <input type="text" id="first_name" name="first_name" placeholder="Enter Your First Name" required
+            oninput="restrictFirstNameInput()">
+        <span class="fn_error error-message" id="first_name_error" style="color: red;"></span>
+
+        <!-- Last Name -->
+        <label for="last_name">Last Name:</label>
+        <input type="text" id="last_name" name="last_name" placeholder="Enter Your Last Name" required
+            oninput="restrictLastNameInput()">
+        <div class="ln_error error-message" id="last_name_error" style="color: red;"></div>
+
+
+
+        <!-- Email -->
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" maxlength="30" placeholder="Enter Your Email ID" required
+            oninput="validateEmail()">
+        <div class="email" id="email_error" style="color: red;"></div>
+
+        <!-- Password -->
+        <div class="password">
+            <div class="pass1">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" maxlength="16" placeholder="Enter your Password"
+                    required oninput="validatePassword()">
+                <img onclick="toggleVisibility()" src="eye.png" alt="">
+                <!-- Show Password Checkbox -->
+                <!-- <input type="checkbox" id="password_visibility_checkbox" onclick="togglePasswordVisibility()">
+                <label for="password_visibility_checkbox">Show Password</label> -->
+            </div>
+
+            <div id="password-strength-meter">
+                Password Strength: <span id="password-strength"></span>
+            </div>
+
+
+            <!-- Confirm Password -->
+            <div class="pass2">
+                <label for="confirm_password">Confirm Password:</label>
+                <input type="password" id="confirm_password" name="confirm_password" maxlength="16"
+                    placeholder="Confirm Your Password" required oninput="validatePassword()">
+                <!-- <div class="pass_check" id="confirm_password_error" style="color: red;"></div> -->
+                <div class="pass_check" id="password_error" style="color: red;"></div>
+            </div>
+        </div>
+
+        <!-- Gender -->
+        <label>Gender:</label>
+        <div class="male">
+            <input type="radio" id="male" name="gender" value="male" id="male">
+            <label for="male">Male</label>
+        </div>
+        <div class="female">
+            <input type="radio" id="female" name="gender" value="female" id="female">
+            <label for="female">Female</label>
+
+        </div>
+        <div class="gender_check" id="gender_error" style="color: red;"></div>
+        <!-- <input type="radio" name="gender" value="other" id="other"><label for="other">Other</label> -->
+
+
+        <!-- Country with Code -->
+        <label for="country">Country:</label>
+        <select id="country" name="country" onchange="validateCountry()">
+            <option value="">Select your Country</option>
+            <option value="India">India (+91)</option>
+            <option value="USA">USA (+1)</option>
+            <option value="China">China (+86)</option>
+        </select>
+        <div class="country" id='country_error' style="color: red; font-size: 12px;"></div>
+
+        <!-- Mobile Number -->
+        <label for="mobile_number">Mobile Number:</label>
+        <input type="tel" id="mobile_number" name="mobile_number" placeholder="Enter Your Mobile Number" required
+            disabled oninput="validateMobileNumber()">
+        <div class="mob_error" id="mobile_number_error" style="color: red;"></div>
+
+        <!-- Address -->
+        <label for="address">Address:</label>
+        <textarea id="address" name="address" rows="4" cols="60" placeholder="Enter Your Permanent Address" required
+            oninput="validateAddress()"></textarea>
+        <div class="add_error" id="address_error" style="color: red;"></div>
+
+        <!-- Pin Code -->
+        <label for="pin_code">ZIP Code:</label>
+        <input type="text" id="pin_code" name="pin_code" placeholder="Enter Your City PIN Code" required disabled
+            oninput="validatePinCode()">
+        <div class="pin_error" id="pin_code_error" style="color: red;"></div>
+
+        <!-- Image File Selection -->
+        <div class="image">
+            <label for="image">Upload Image:</label>
+            <input type="file" id="image" name="image" accept=".jpg, .png, .jpeg" oninput="ValidateImage()" required>
+            <div class="img_error" id="imageError" style="color: red;"></div>
+        </div>
+
+        <!-- PDF File Selection -->
+        <div class="file">
+            <label for="pdf">Upload PDF:</label>
+            <input type="file" id="pdf" name="pdf" accept=".pdf" oninput="ValidatePdf()" required>
+            <div class="pdf_error" id="pdfError" style="color: red;"></div>
+        </div>
+
+        <!-- Terms and Conditions Checkbox -->
+        <label for="terms">
+            <input type="checkbox" id="terms" name="terms" id="terms" required>
+            I agree to the Terms & Conditions
+        </label>
+
+        <!-- Register Button -->
+        <input class="register" type="Submit" value="Register" onclick="validateForm()">
+        <!-- <input type="submit" value="Register" id="registerButton"> -->
+        <!-- document.querySelector('input[type="submit"]').addEventListener('click', triggerAllErrors);> -->
+
+        <!-- <button class="register" type="button" id="registerButton">Register</button> -->
+    </form>
+    <script>
+
+        // Show Password 
+        function toggleVisibility() {
+            var getPasword = document.getElementById("password");
+            if (getPasword.type === "password") {
+                getPasword.type = "text";
+            } else {
+                getPasword.type = "password";
+            }
+        }
+
+        // First Name
+        function restrictFirstNameInput() {
+            var firstNameInput = document.forms["registrationForm"]["first_name"];
+            var restrictedFirstName = firstNameInput.value.replace(/[^a-zA-Z0-9]/g, '').substring(0, 15);
+            var firstNameError = document.getElementById("first_name_error");
+
+            // Ensure the first letter is capitalized
+            restrictedFirstName = restrictedFirstName.charAt(0).toUpperCase() + restrictedFirstName.slice(1);
+
+            // Check for the condition where no three letters are repeated at the same time
+            var threeRepeatedLettersPattern = /(.)\1\1/g;
+            while (threeRepeatedLettersPattern.test(restrictedFirstName)) {
+                restrictedFirstName = restrictedFirstName.replace(threeRepeatedLettersPattern, '$1$1');
+                alert("3 same letters, Special Characters & Space are not allowed.")
+            }
+
+            firstNameInput.value = restrictedFirstName;
+
+            if (firstNameInput.value.trim() === '') {
+                firstNameInput.setCustomValidity("First Name is required.");
+                firstNameError.innerText = "*Required! First Name must be Alphanumeric (Max- 15 Characters)";
+            } else {
+                firstNameInput.setCustomValidity('');
+                firstNameError.innerText = '';
+            }
+        }
+
+        // Last Name 
+        function restrictLastNameInput() {
+            var lastNameInput = document.forms["registrationForm"]["last_name"];
+            var restrictedLastName = lastNameInput.value.replace(/[^a-zA-Z0-9]/g, '').substring(0, 16);
+            var lastNameError = document.getElementById("last_name_error");
+
+            // Ensure the first letter is capitalized
+            restrictedLastName = restrictedLastName.charAt(0).toUpperCase() + restrictedLastName.slice(1);
+
+            // Check for the condition where no three letters are repeated at the same time
+            var threeRepeatedLettersPattern = /(.)\1\1/g;
+            while (threeRepeatedLettersPattern.test(restrictedLastName)) {
+                restrictedLastName = restrictedLastName.replace(threeRepeatedLettersPattern, '$1$1');
+                alert("3 same letters, Special Characters & Space are not allowed.")
+            }
+
+            lastNameInput.value = restrictedLastName;
+
+            if (lastNameInput.value.trim() === '') {
+                lastNameInput.setCustomValidity("Last Name is required.");
+                lastNameError.innerText = "*Required! Last Name must be Alphanumeric (Max- 15 Characters)";
+            } else {
+                lastNameInput.setCustomValidity('');
+                lastNameError.innerText = '';
+            }
+        }
+
+
+
+        // Email Validation 
+        function validateEmail() {
+            var emailInput = document.forms["registrationForm"]["email"];
+            var emailError = document.getElementById("email_error");
+            var email = emailInput.value;
+
+
+            email = email.toLowerCase();
+
+            // Use a regular expression to validate the email format
+            var emailPattern = /^[a-z0-9]+[a-z0-9.]+[a-z0-9]*@[a-z]+\.[a-z]{2,}$/;
+
+            if (email.match(emailPattern)) {
+                // Separate the domain part from the email
+                var parts = email.split('@');
+                var localPart = parts[0];
+                var domain = parts[1];
+
+                // Use a regular expression to block spaces and other special characters in the local part
+                var localPartPattern = /^[a-z0-9.]+$/;
+                if (!localPart.match(localPartPattern)) {
+                    emailError.innerText = "Invalid email format. Local part should consist of lowercase letters and numbers only.";
+                    emailInput.setCustomValidity("Invalid email format");
+                } else if (localPart.length < 3) {
+                    emailError.innerText = "*Invalid email format. Before @ email should have at least 3 characters.";
+                    emailInput.setCustomValidity("Invalid email format");
+                } else {
+                    // Check if the domain has exactly one dot
+                    var domainParts = domain.split('.');
+                    if (domainParts.length === 2) {
+                        emailError.innerText = "";
+                        emailInput.setCustomValidity("");
+                    } else {
+                        emailError.innerText = "*Invalid email format. The domain should have one dot.";
+                        emailInput.setCustomValidity("Invalid email format");
+                    }
+                }
+            } else {
+                emailError.innerText = "*Invalid!. Email must be in abc@abc.com format with no Space and Special Characters.";
+                emailInput.setCustomValidity("Invalid email format");
+            }
+        }
+
+        // Password Validation
+        function validatePassword() {
+            var passwordInput = document.forms["registrationForm"]["password"];
+            var confirmPasswordInput = document.forms["registrationForm"]["confirm_password"];
+            var passwordError = document.getElementById("password_error");
+
+            var password = passwordInput.value;
+            var confirmPassword = confirmPasswordInput.value;
+
+            if (passwordInput.value.trim() === '') {
+                passwordInput.setCustomValidity("Password is required.");
+                passwordError.innerText = "*Password Required";
+            } else if (password.length < 6 || password.length > 16 || /\s/.test(password)) {
+                passwordInput.setCustomValidity("Password must be between 6 and 16 characters and cannot contain spaces.");
+                passwordError.innerText = "*Invalid! Password must be between 6 and 16 characters and cannot contain spaces. It must also have at least 1 number and special character.";
+            } else if (!/^[A-Z]/.test(password)) {
+                passwordInput.setCustomValidity("Password must start with a capital letter.");
+                passwordError.innerText = "*Invalid! Password must start with a capital letter.";
+            } else if (!/[!@#\$%^&*0-9]/.test(password)) {
+                passwordInput.setCustomValidity("Password must contain at least one special character and one number.");
+                passwordError.innerText = "*Invalid! Password must contain at least one special character and one number.";
+            } else {
+                if (password !== confirmPassword) {
+                    confirmPasswordInput.setCustomValidity("Passwords do not match.");
+                    passwordError.innerText = "*Invalid! Passwords do not match.";
+                } else {
+                    passwordInput.setCustomValidity('');
+                    confirmPasswordInput.setCustomValidity('');
+                    passwordError.innerText = '';
+                }
+            }
+        }
+
+        // Country Validation
+        function validateCountry() {
+            var form = document.forms["registrationForm"];
+            var countrySelect = form["country"];
+            var mobileNumberInput = form["mobile_number"];
+            var pinCodeInput = form["pin_code"];
+
+            if (countrySelect.value === "India" || countrySelect.value === "USA" || countrySelect.value === "China") {
+                // Enable the Mobile Number and PIN Code fields
+                mobileNumberInput.value = "";
+                mobileNumberInput.disabled = false;
+                pinCodeInput.disabled = false;
+            } else {
+                // Disable the Mobile Number and PIN Code fields
+                mobileNumberInput.disabled = true;
+                pinCodeInput.disabled = true;
+                // Clear any existing values in the fields
+                mobileNumberInput.value = "";
+                pinCodeInput.value = "";
+            }
+        }
+
+        // Mobile Number Validation
+        function validateMobileNumber() {
+            var mobileNumberInput = document.forms["registrationForm"]["mobile_number"];
+            var mobileNumberError = document.getElementById("mobile_number_error");
+            var selectedCountry = document.forms["registrationForm"]["country"].value;
+
+            var mobileNumber = mobileNumberInput.value;
+
+            if (mobileNumberInput.value.trim() === '') {
+                mobileNumberInput.setCustomValidity("Full Name is required.");
+                mobileNumberError.innerText = "*Required";
+            } else if (selectedCountry === "India") {
+                // var mobileNumberPattern = /^[0-9]{0,10}$/; // 10 digits
+                var mobileNumberPattern = /^[6-9][0-9]{9,9}$/; // 10 digits
+
+                if (!mobileNumberPattern.test(mobileNumber)) {
+                    mobileNumberInput.value = mobileNumber.replace(/[^0-9]/g, '').substring(0, 10);
+                    mobileNumberInput.setCustomValidity("Mobile number in India must start from 6 to 9 and must be 10-digit number.");
+                    mobileNumberError.innerText = "*Mobile number in India must start from 6 to 9 and must be 10-digit number.";
+                } else {
+                    mobileNumberInput.setCustomValidity('');
+                    mobileNumberError.innerText = '';
+                }
+            } else if (selectedCountry === "USA") {
+                var mobileNumberPattern = /^[1-9][0-9]{5,6}$/; // 7 digits
+
+                if (!mobileNumberPattern.test(mobileNumber)) {
+                    mobileNumberInput.value = mobileNumber.replace(/[^0-9]/g, '').substring(0, 7);
+                    mobileNumberInput.setCustomValidity("Mobile number in the USA must be a 7-digit number.");
+                    mobileNumberError.innerText = "*Mobile number in the USA must be a 6 to 7 digit number only.";
+                } else {
+                    mobileNumberInput.setCustomValidity('');
+                    mobileNumberError.innerText = '';
+                }
+            } else if (selectedCountry === "China") {
+                var mobileNumberPattern = /^[1-9][0-9]{10,12}$/; // 1 to 13 digits
+
+                if (!mobileNumberPattern.test(mobileNumber)) {
+                    mobileNumberInput.value = mobileNumber.replace(/[^0-9]/g, '').substring(0, 13);
+                    mobileNumberInput.setCustomValidity("Mobile number in China must be between 11 to 13 digits.");
+                    mobileNumberError.innerText = "*Mobile number in China must be a 11 to 13 digit number only.";
+                } else {
+                    mobileNumberInput.setCustomValidity('');
+                    mobileNumberError.innerText = '';
+                }
+            } else {
+                mobileNumberInput.setCustomValidity('');
+                mobileNumberError.innerText = '';
+            }
+        }
+
+        // Address Validation
+        function validateAddress() {
+            var addressInput = document.forms["registrationForm"]["address"];
+            var addressError = document.getElementById("address_error");
+            var address = addressInput.value;
+
+            // Remove special characters and extra spaces, keep only alphanumeric characters
+            address = address.replace(/[^a-zA-Z0-9\s.-/&]/g, '').substring(0, 128);
+            // Ensure first letter is capitalized
+            address = address.replace(/\b\w/g, function (match) {
+                return match.toUpperCase();
+            });
+            // Prevent more than one consecutive space
+            address = address.replace(/\s{2,}/g, ' ');
+            // Prevent three consecutive letters
+            address = address.replace(/(\D)\1\1/g, '$1$1');
+            address = address.replace(/(\w)\1\1\1/g, '$1$1');
+
+            // address = address.replace(/[^a-zA-Z0-9]/g, '').substring(0, 16);
+
+
+            if (address.length < 16 || address.length > 128) {
+                addressError.innerText = "Invalid address format. Address must be between 16 and 128 characters.";
+                addressInput.setCustomValidity("Invalid address format.");
+            }
+
+            addressInput.value = address; // Update the field value
+
+            // Check if the value has changed
+            if (addressInput.value !== address) {
+                addressError.innerText = "Invalid input! no 3 repeated characters and max 128 characters.";
+                addressInput.setCustomValidity("Invalid input.");
+            } else {
+                addressError.innerText = "";
+                addressInput.setCustomValidity("");
+            }
+        }
+
+        // Pin Code Validation
+        function validatePinCode() {
+            var pinCodeInput = document.forms["registrationForm"]["pin_code"];
+            var pinCodeError = document.getElementById("pin_code_error");
+            var selectedCountry = document.forms["registrationForm"]["country"].value;
+            var pinCode = pinCodeInput.value;
+
+            var pinCodePattern;
+
+            if (selectedCountry === "India" || selectedCountry === "China") {
+                pinCodePattern = /^[1-9][0-9]{5,5}$/; // 6 digits for India and China
+
+                if (!pinCodePattern.test(pinCode)) {
+                    pinCodeInput.value = pinCode.replace(/[^0-9]/g, '').substring(0, 6);
+                    pinCodeInput.setCustomValidity("ZIP in ${selectedCountry} must be a 6-digit number.");
+                    pinCodeError.innerText = `*ZIP Code in ${selectedCountry} must be a 6-digit number only.`;
+                } else {
+                    pinCodeInput.setCustomValidity('');
+                    pinCodeError.innerText = '';
+                }
+            } else if (selectedCountry === "USA") {
+                pinCodePattern = /^[1-9][0-9]{4,4}$/; // 5 digits for USA
+
+                if (!pinCodePattern.test(pinCode)) {
+                    pinCodeInput.value = pinCode.replace(/[^0-9]/g, '').substring(0, 5);
+                    pinCodeInput.setCustomValidity("ZIP in ${selectedCountry} must be a 5-digit number.");
+                    pinCodeError.innerText = `*ZIP Code in ${selectedCountry} must be a 5-digit number only.`;
+                } else {
+                    pinCodeInput.setCustomValidity('');
+                    pinCodeError.innerText = '';
+                }
+            } else {
+                pinCodeInput.setCustomValidity('');
+                pinCodeError.innerText = '';
+            }
+        }
+
+        // Register Button Validation
+        function validateForm() {
+            var form = document.getElementById("registrationForm");
+            var elements = form.elements;
+            var allFieldsFilled = true;
+
+            for (var i = 0; i < elements.length; i++) {
+                var element = elements[i];
+
+                // Skip validation for gender fields
+                if (element.name === "gender") {
+                    continue;
+                }
+
+                if (element.required && element.value.trim() === "") {
+                    // Display error message for empty required fields
+                    element.nextElementSibling.innerText = `*${element.name} is required.`;
+                    allFieldsFilled = false;
+                } else {
+                    // Clear any previous error messages
+                    element.nextElementSibling.innerText = "";
+                }
+            }
+        }
+
+        function formSubmit() {
+            var form = document.forms["registrationForm"];
+            var termsCheckbox = form["terms"];
+
+            // Check if the terms checkbox is checked and all fields are valid
+            if (termsCheckbox.checked && form.checkValidity()) {
+                // Display a confirmation message
+                alert("Form submitted successfully!");
+
+                // Reset the form to clear all fields
+                form.reset();
+            }
+
+            // Prevent form submission
+            return false;
+        }
+
+
+        // JavaScript validation to prevent selecting non-image files
+        function ValidateImage() {
+            var imageInput = document.getElementById("image");
+            var imageError = document.getElementById("imageError");
+
+            imageInput.addEventListener("change", function () {
+                var selectedFile = imageInput.files[0];
+                if (selectedFile) {
+                    if (!/^image\/(jpg|jpeg|png)$/.test(selectedFile.type)) {
+                        imageInput.value = '';  // Clear the file input
+                        imageError.innerText = "*Invalid file format. Only JPG, JPEG and PNG images are allowed.";
+                    } else {
+                        imageError.innerText = '';  // Clear any previous error message
+                    }
+                }
+            });
+        }
+
+        // JavaScript validation to prevent selecting non-PDF files
+        function ValidatePdf() {
+            var pdfInput = document.getElementById("pdf");
+            var pdfError = document.getElementById("pdfError");
+
+            pdfInput.addEventListener("change", function () {
+                var selectedFile = pdfInput.files[0];
+                if (selectedFile) {
+                    if (selectedFile.type !== "application/pdf") {
+                        pdfInput.value = '';  // Clear the file input
+                        pdfError.innerText = "*Invalid file format. Only PDF files are allowed.";
+                    } else {
+                        pdfError.innerText = '';  // Clear any previous error message
+                    }
+                }
+            });
+        }
+
+
+        //password strength function
+        function validatePassword() {
+            var passwordInput = document.forms["registrationForm"]["password"];
+            var confirmPasswordInput = document.forms["registrationForm"]["confirm_password"];
+            var passwordStrengthMeter = document.getElementById("password-strength");
+            var password = passwordInput.value;
+
+            // Calculate password strength (you can define your own criteria for password strength)
+            var passwordStrength = calculatePasswordStrength(password);
+
+            // Update the password strength display
+            passwordStrengthMeter.textContent = passwordStrength + "%";
+
+            // You can also change the color based on the password strength
+            if (passwordStrength < 50) {
+                passwordStrengthMeter.style.color = "red";
+            } else if (passwordStrength < 75) {
+                passwordStrengthMeter.style.color = "orange";
+            } else {
+                passwordStrengthMeter.style.color = "green";
+            }
+
+            // Rest of your password validation logic here...
+        }
+
+        function calculatePasswordStrength(password) {
+
+            var length = password.length;
+            var uppercaseCount = password.replace(/[^A-Z]/g, "").length;
+            var lowercaseCount = password.replace(/[^a-z]/g, "").length;
+            var digitCount = password.replace(/[^0-9]/g, "").length;
+            var specialCharCount = password.replace(/[A-Za-z0-9]/g, "").length;
+
+            var totalCharacters = length + (specialCharCount * 2);
+            var strength = (totalCharacters >= 8 ? 25 : 0) +
+                (uppercaseCount >= 1 ? 25 : 0) +
+                (lowercaseCount >= 1 ? 25 : 0) +
+                (digitCount >= 1 ? 15 : 0) +
+                (specialCharCount >= 1 ? 10 : 0);
+
+            return strength;
+        }
+
+    </script>
+</body>
+
+</html>
